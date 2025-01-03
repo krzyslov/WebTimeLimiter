@@ -1,0 +1,15 @@
+{
+  "name": "Web Time Limiter",
+  "description": "Base Level Extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": ["tabs", "storage"],
+  "host_permissions": ["*://*/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": "hello_extensions.png"
+  },
+  "content_scripts": [{"matches": ["<all_urls>"], "js": ["content.js"]}]
+}
