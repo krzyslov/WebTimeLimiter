@@ -5,7 +5,7 @@ const addUrlButton = document.getElementById('add-url');
 
 
 function renderList() {
-  chrome.storage.sync.get('urls', ({ urls }) => {
+  chrome.storage.local.get('urls', ({ urls }) => {
     urlList.innerHTML = '';
     (urls || []).forEach(url => {
       const li = document.createElement('li');
@@ -22,29 +22,28 @@ function renderList() {
 function addUrl() {
   const url = newUrlInput.value;
   if (!url) return;
-  chrome.storage.sync.get('urls', ({ urls }) => {
+  chrome.storage.local.get('urls', ({ urls }) => {
     const updatedUrls = urls ? [...urls, url] : [url];
-    chrome.storage.sync.set({ urls: updatedUrls }, renderList);
+    chrome.storage.local.set({ urls: updatedUrls }, renderList);
     newUrlInput.value = '';
   });
 }
 
 function removeUrl(url) {
-  chrome.storage.sync.get('urls', ({ urls }) => {
+  chrome.storage.local.get('urls', ({ urls }) => {
     const updatedUrls = urls.filter(item => item !== url);
-    chrome.storage.sync.set({ urls: updatedUrls }, renderList);
+    chrome.storage.local.set({ urls: updatedUrls }, renderList);
   });
 }
 
 addUrlButton.addEventListener('click', addUrl); // Przypisanie funkcji do przycisku
+
 renderList();
 
-chrome.storage.local.get('accessGranted', ({ accessGranted }) => {
-  console.log("Access granted data:", accessGranted);
+chrome.storage.local.get('urlTimeConstraint', ({ urlTimeContraint }) => {
+  console.log("urlTimeContraint data:", urlTimeContraint);
 });
 
 chrome.storage.local.get(null, (data) => {
   console.log("All data in chrome.storage.local:", data);
 });
-
-console.log(new Date(1735842189257).toLocaleString());
